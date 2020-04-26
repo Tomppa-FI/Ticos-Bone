@@ -12,12 +12,12 @@ const APP_COMPONENTS = {
 };
 
 const Wrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-color: darkgreen;
     width: 100%;
     height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const initialPlayerStatus = {
@@ -32,6 +32,16 @@ const playerStatusReducer = (state, action) => {
         case "RESET_GAME": 
             return {
                 initialPlayerStatus
+            }
+        case "INCREASE_HEALTH": 
+            return {
+                ...state,
+                playerHealth: state.playerHealth + action.payload
+            }
+        case "DECREASE_HEALTH":
+            return {
+                ...state,
+                playerHealth: state.playerHealth - action.payload
             }
         case "INCREASE_COINS":
             return {

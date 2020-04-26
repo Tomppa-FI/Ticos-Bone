@@ -4,8 +4,10 @@ import Level from "./Level";
 import levelData from "../game/levelData.json";
 
 import { usePlayerStatus } from "./App";
+import StatusBar from "./StatusBar";
 const Wrapper = styled.div`
-
+    height: 100%;
+    width: 100%;
 `;
 
 export default () => {
@@ -14,6 +16,7 @@ export default () => {
     const LevelComponent = <Level {...levelData[currentLevel]} />;
     return (
         <Wrapper>
+            <StatusBar />
             {LevelComponent}
         </Wrapper>
     )
