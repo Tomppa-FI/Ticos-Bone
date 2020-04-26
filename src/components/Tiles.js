@@ -10,11 +10,12 @@ const mapFixedTileToOffset = {
     "tree": "-240px"
 }
 
-const mapEntityToImageUrl = {
+const mapTypeToImageUrl = {
     "dog": "./media/images/Dog.png",
     "evilghost": "./media/images/EvilGhost.png",
     "skeleton": "./media/images/Skeleton.png",
-    "pumpkinman": "./media/images/PumpkinMan.png"
+    "pumpkinman": "./media/images/PumpkinMan.png",
+    "coin": "./media/images/Gold.png"
 }
 
 const mapOrientationToTopOffset = {
@@ -47,10 +48,16 @@ export const FixedTile = styled(Tile)`
 export const EntityTile = styled(Tile)`
     left: ${props => props.left}px;
     top: ${props => props.top}px;
-    background-image: url(${props => mapEntityToImageUrl[props.entityType]});
+    background-image: url(${props => mapTypeToImageUrl[props.entityType]});
     transition: ${props => props.entityType === "dog" ? "top 0.2s linear 0s, left 0.2s linear 0s" : "top 0.5s linear 0s, left 0.5s linear 0s;"};
     background-position: ${props => {
         const walkingAnimationState = props.walkingState % 6 === 0 ? 3 : props.walkingState % 4 === 0 ? 2 : 1;
         return `${mapWalkingAnimationStateToLeftOffset[walkingAnimationState]} ${mapOrientationToTopOffset[props.orientation]}`;
     }}
+`;
+
+export const CollectableTile = styled(Tile)`
+    left: ${props => props.left}px;
+    top: ${props => props.top}px;
+    background-image: url(${props => mapTypeToImageUrl[props.entityType]});
 `;

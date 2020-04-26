@@ -28,7 +28,6 @@ const initialPlayerStatus = {
 }
 
 const playerStatusReducer = (state, action) => {
-    console.log("Triggered");
     switch (action.type){
         case "ResetGame": 
             return {

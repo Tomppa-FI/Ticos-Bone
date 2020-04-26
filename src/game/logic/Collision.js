@@ -12,3 +12,11 @@ export const isNewPositionValid = (newPosition, invalidPositions) => {
 
     return true;
 }
+
+export const didDogTouchEntity = (dogPosition, entityPositions) => {
+    return !!entityPositions.find(([left, top]) => left === dogPosition[0] && top === dogPosition[1])
+}
+
+export const didDogTouchCollectable = (dogPosition, objectPositions) => {
+    return !!objectPositions.find(([left, top]) => left === dogPosition[0] && top === dogPosition[1])
+}
