@@ -8,7 +8,33 @@
             "river-end-west": [[0, 400]],
             "river-horizontal": [[40, 400], [80, 400], [120, 400]],
             "river-vertical": [[160, 440], [160, 480], [160, 520]]
-        }
+        },
+        "dog": {
+            "pos": [80, 0],
+            "orientation": "south",
+            "entityType": "dog",
+            "walkingState": 2
+        },
+        "monsters": [
+            {
+                "pos": [200, 200],
+                "orientation": "north",
+                "entityType": "skeleton",
+                "walkingState": 2
+            }, 
+            {
+                "pos": [200, 320],
+                "orientation": "west",
+                "entityType": "skeleton",
+                "walkingState": 2
+            },
+            {
+                "pos": [400, 480], 
+                "orientation": "west",
+                "entityType": "evilghost",
+                "walkingState": 2
+            }
+        ]
     },
     "2": {
         "fixedTiles": {

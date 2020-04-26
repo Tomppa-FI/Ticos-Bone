@@ -28,32 +28,33 @@ const initialPlayerStatus = {
 }
 
 const playerStatusReducer = (state, action) => {
+    console.log("Triggered");
     switch (action.type){
-        case "RESET_GAME": 
+        case "ResetGame": 
             return {
                 initialPlayerStatus
             }
-        case "INCREASE_HEALTH": 
+        case "IncreaseHealth": 
             return {
                 ...state,
                 playerHealth: state.playerHealth + action.payload
             }
-        case "DECREASE_HEALTH":
+        case "DecreaseHealth":
             return {
                 ...state,
                 playerHealth: state.playerHealth - action.payload
             }
-        case "INCREASE_COINS":
+        case "IncreaseCoins":
             return {
                 ...state,
                 playerCoins: state.playerCoins + action.payload
             }
-        case "INCREASE_MOVES":
+        case "IncreaseMoves":
             return {
                 ...state,
                 playerMoves: state.playerMoves + 1
             }
-        case "INCREASE_LEVEL":
+        case "IncreaseLevel":
             return {
                 ...state,
                 currentLevel: state.currentLevel + action.payload
