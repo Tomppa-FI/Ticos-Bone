@@ -49,7 +49,6 @@ export const FixedTile = styled(Tile)`
     background-position: ${props => mapFixedTileToOffset[props.tileType]};
 `;
 
-//Transitions will hang w/o hardware acceleration - -webkit-transform: translateZ(0);
 
 export const EntityTile = styled(Tile)`
     transform: translate3d(${props => props.left}px, ${props => props.top}px, 0);    
