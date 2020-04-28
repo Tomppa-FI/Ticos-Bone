@@ -18,5 +18,9 @@ export const didDogTouchEntity = (dogPosition, entityPositions) => {
 }
 
 export const didDogTouchCollectable = (dogPosition, objectPositions) => {
-    return !!objectPositions.find(([left, top]) => left === dogPosition[0] && top === dogPosition[1])
+    return didDogTouchEntity(dogPosition, objectPositions);
+}
+
+export const didDogTouchBone = (dogPosition, bonePos) => {
+    return dogPosition[0] === bonePos[0] && dogPosition[1] === bonePos[1];
 }

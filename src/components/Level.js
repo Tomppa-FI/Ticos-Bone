@@ -2,7 +2,7 @@ import React, { useMemo, useState, useEffect} from "react";
 import styled from "styled-components";
 
 import { FixedTile, EntityTile, CollectableTile } from "./Tiles";
-import { isNewPositionValid, didDogTouchEntity, didDogTouchCollectable } from "../game/logic/Collision";
+import { isNewPositionValid, didDogTouchEntity, didDogTouchCollectable, didDogTouchBone } from "../game/logic/Collision";
 import { usePlayerStatus } from "./App";
 import { DispatchMap } from "../Constants";
 
@@ -12,6 +12,9 @@ const Wrapper = styled.div`
     height: 600px;
     background: url("./media/images/Background-Tile.png");
     position: relative;
+    &:focus {
+        outline: none;
+    }
 `;
 
 const orientationFactorMap = {
@@ -44,11 +47,19 @@ const keyMap = {
   };
 
 
-export default ({fixedTiles, dog, monsters, coins}) => {
+export default ({fixedTiles, walkableTiles, dog, monsters, coins, bone}) => {
     const {playerStatus, dispatch} = usePlayerStatus();
     const [monsterObjects, setMonsterObjects] = useState(monsters);
     const [dogObject, setDogObject] = useState(dog);
     const [coinObjects, setCoinObjects] = useState(coins);
+    const boneComponent = useMemo(() => (
+        <CollectableTile 
+            key={"Bone"}
+            left={bone[0]}
+            top={bone[1]}
+            entityType="bone"
+        />
+    ), [bone])
 
     const coinComponents = useMemo(() => {
         return Object.values(coinObjects).map((pos, index) => {
@@ -60,6 +71,19 @@ export default ({fixedTiles, dog, monsters, coins}) => {
             />
         })
     }, [coinObjects])
+
+    const walkableFixedComponents = useMemo(() =>
+        Object.entries(walkableTiles).map(([tileType, tiles]) => 
+            tiles.map(([left, top], index) => (
+                <FixedTile
+                    key={`${tileType}_${index}`}
+                    left={left}
+                    top={top}
+                    tileType={tileType}
+                />
+            ))
+        ).flat(), [walkableTiles]
+    )
 
     const fixedComponents = useMemo(() => 
         Object.entries(fixedTiles).map(([tileType, tiles]) => 
@@ -106,6 +130,9 @@ export default ({fixedTiles, dog, monsters, coins}) => {
     const invalidPositions = useMemo(() => Object.values(fixedTiles).flat(), [fixedTiles])
 
     const updateGame = () => {
+        if (didDogTouchEntity(dogObject.pos, monsterObjects.map(({pos}) => pos))) {
+            handleDamageDog(1);
+        }
         setMonsterObjects((prevMonsters) => {
             return prevMonsters.map(({orientation, pos, walkingState, entityType}) => {
                 const [offsetLeft, offsetTop] = orientationFactorMap[orientation];
@@ -122,14 +149,46 @@ export default ({fixedTiles, dog, monsters, coins}) => {
                 }
             })
         })
-        if (didDogTouchEntity(dogObject.pos, monsterObjects.map(({pos}) => pos))) {
+
+    }
+
+    const handleDogInteraction = newPosition => {
+        
+        dispatch({
+            type: DispatchMap.INCREASE_MOVES
+        })
+
+        if (didDogTouchEntity(newPosition, monsterObjects.map(({pos}) => pos))) {
+            handleDamageDog(1);
+        }
+
+        if (didDogTouchBone(newPosition, bone)) {
             dispatch({
-                type: DispatchMap.DECREASE_HEALTH,
+                type: DispatchMap.INCREASE_LEVEL,
                 payload: 1
             })
         }
-        
 
+        if (didDogTouchCollectable(newPosition, coinObjects)) {
+            new Audio("./media/audio/Coinpickup.wav").play();
+            dispatch({
+                type: DispatchMap.INCREASE_COINS,
+                payload: 1
+            });
+            setCoinObjects((prevCoins) => {
+                return prevCoins.filter(pos => {
+                    return pos[0] !== newPosition[0] && pos[1] !== newPosition[1];
+                });
+            })
+        }
+    }
+
+    const handleDamageDog = dmgTaken => {
+        new Audio("./media/audio/Ticohit.wav").play();
+        dispatch({
+            type: DispatchMap.DECREASE_HEALTH,
+            payload: dmgTaken
+        })
     }
 
     const handleKeyPress = ({key}) => {
@@ -146,28 +205,7 @@ export default ({fixedTiles, dog, monsters, coins}) => {
             return;
         }
 
-        dispatch({
-            type: DispatchMap.INCREASE_MOVES
-        })
-
-        if (didDogTouchEntity(newPosition, monsterObjects.map(({pos}) => pos))) {
-            dispatch({
-                type: DispatchMap.DECREASE_HEALTH,
-                payload: 1
-            })
-        }
-
-        if (didDogTouchCollectable(newPosition, coinObjects)) {
-            dispatch({
-                type: DispatchMap.INCREASE_COINS,
-                payload: 1
-            });
-            setCoinObjects((prevCoins) => {
-                return prevCoins.filter(pos => {
-                    return pos[0] !== newPosition[0] && pos[1] !== newPosition[1];
-                });
-            })
-        }
+        handleDogInteraction(newPosition);
 
         setDogObject((prevDogObject) => {
             return {
@@ -190,6 +228,8 @@ export default ({fixedTiles, dog, monsters, coins}) => {
             {monsterComponents}
             {dogComponent}
             {coinComponents}
+            {boneComponent}
+            {walkableFixedComponents}
         </Wrapper>
     )
 }

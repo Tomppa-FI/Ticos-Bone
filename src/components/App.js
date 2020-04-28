@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useContext, useReducer} from "react";
+import React, {useState, useMemo, useContext, useReducer, useEffect} from "react";
 import styled from "styled-components";
 import MainMenu from "./MainMenu";
 import Game from "./Game";
@@ -31,7 +31,7 @@ const playerStatusReducer = (state, action) => {
     switch (action.type){
         case "ResetGame": 
             return {
-                initialPlayerStatus
+                ...initialPlayerStatus
             }
         case "IncreaseHealth": 
             return {
@@ -72,6 +72,12 @@ export default () => {
     const [gameState, setGameState] = useState("MainMenu");
     const GameComponent = useMemo(() => APP_COMPONENTS[gameState], [gameState]);
 
+    useEffect(() => {
+        if (playerStatus.playerHealth <= 0) {
+            setGameState("GameOver");
+        }
+    }, [playerStatus.playerHealth])
+    
     return (
         <Wrapper>
             <PlayerStatusContext.Provider value={{playerStatus, dispatch}} >
