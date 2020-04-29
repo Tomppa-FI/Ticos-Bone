@@ -51,10 +51,11 @@ export const FixedTile = styled(Tile)`
 
 
 export const EntityTile = styled(Tile)`
+    will-change: transform;
     transform: translate3d(${props => props.left}px, ${props => props.top}px, 0);    
     background-image: url(${props => mapTypeToImageUrl[props.entityType]});
     z-index: 1;
-    transition: ${props => props.entityType === "dog" ? "transform 0.2s linear 0s" : "transform 0.5s linear"};
+    transition: ${props => props.entityType === "dog" ? "transform 0.05s linear 0s" : "transform 0.3s linear 0s"};
     background-position: ${props => {
         const walkingAnimationState = props.walkingState % 6 === 0 ? 3 : props.walkingState % 4 === 0 ? 2 : 1;
         return `${mapWalkingAnimationStateToLeftOffset[walkingAnimationState]} ${mapOrientationToTopOffset[props.orientation]}`;

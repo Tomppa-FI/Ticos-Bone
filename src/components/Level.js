@@ -177,7 +177,7 @@ export default ({fixedTiles, walkableTiles, dog, monsters, coins, bone}) => {
             });
             setCoinObjects((prevCoins) => {
                 return prevCoins.filter(pos => {
-                    return pos[0] !== newPosition[0] && pos[1] !== newPosition[1];
+                    return (pos[0] !== newPosition[0] || pos[1] !== newPosition[1]);
                 });
             })
         }
