@@ -1,26 +1,23 @@
 import styled from "styled-components";
 
-const mapFixedTileToOffset = {
-    "river-corner-ne": 0,
-    "river-end-south": "-40px",
-    "river-end-west": "-80px",
-    "river-horizontal": "-120px",
-    "river-vertical": "-160px",
-    "rock": "-200px",
-    "tree": "-240px",
-    "grass": "-280px",
-    "bush": "-320px",
-    "pond": "-360px",
-    "bridge-vertical": "-400px"
-}
-
 const mapTypeToImageUrl = {
     "dog": "./media/images/Dog.png",
     "evilghost": "./media/images/EvilGhost.png",
     "skeleton": "./media/images/Skeleton.png",
     "pumpkinman": "./media/images/PumpkinMan.png",
     "coin": "./media/images/Coin.gif",
-    "bone": "./media/images/Bone.png"
+    "bone": "./media/images/Bone.png",
+    "river-corner-ne": "./media/images/RiverCornerNE.png",
+    "river-end-south": "./media/images/RiverEndSouth.png",
+    "river-end-west": "./media/images/RiverEndWest.png",
+    "river-horizontal": "./media/images/RiverHorizontal.png",
+    "river-vertical": "./media/images/RiverVertical.png",
+    "rock": "./media/images/Rock.png",
+    "tree": "./media/images/Tree.png",
+    "grass": "./media/images/Grass.png",
+    "bush": "./media/images/Bush.png",
+    "pond": "./media/images/Pond.png",
+    "bridge-vertical": "./media/images/BridgeVertical.png"
 }
 
 const mapOrientationToTopOffset = {
@@ -41,21 +38,19 @@ const Tile = styled.div`
     height: 40px;
     width: 40px;
     background-repeat: no-repeat;
+    background-image: url(${props => mapTypeToImageUrl[props.tileType]});
 `;
 
 export const FixedTile = styled(Tile)`
     transform: translate(${props => props.left}px, ${props => props.top}px);    
-    background-image: url("./media/images/TileSheet.png");
-    background-position: ${props => mapFixedTileToOffset[props.tileType]};
 `;
 
 
 export const EntityTile = styled(Tile)`
     will-change: transform;
     transform: translate3d(${props => props.left}px, ${props => props.top}px, 0);    
-    background-image: url(${props => mapTypeToImageUrl[props.entityType]});
     z-index: 1;
-    transition: ${props => props.entityType === "dog" ? "transform 0.05s linear 0s" : "transform 0.3s linear 0s"};
+    transition: ${props => props.tileType === "dog" ? "transform 0.05s linear 0s" : "transform 0.5s linear 0s"};
     background-position: ${props => {
         const walkingAnimationState = props.walkingState % 6 === 0 ? 3 : props.walkingState % 4 === 0 ? 2 : 1;
         return `${mapWalkingAnimationStateToLeftOffset[walkingAnimationState]} ${mapOrientationToTopOffset[props.orientation]}`;
@@ -64,6 +59,5 @@ export const EntityTile = styled(Tile)`
 
 export const CollectableTile = styled(Tile)`
     transform: translate(${props => props.left}px, ${props => props.top}px);
-    background-image: url(${props => mapTypeToImageUrl[props.entityType]});
     background-position: center;
 `;

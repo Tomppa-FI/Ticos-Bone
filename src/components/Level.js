@@ -57,7 +57,7 @@ export default ({fixedTiles, walkableTiles, dog, monsters, coins, bone}) => {
             key={"Bone"}
             left={bone[0]}
             top={bone[1]}
-            entityType="bone"
+            tileType="bone"
         />
     ), [bone])
 
@@ -67,7 +67,7 @@ export default ({fixedTiles, walkableTiles, dog, monsters, coins, bone}) => {
                 key={`Coin${index}`}
                 left={pos[0]}
                 top={pos[1]}
-                entityType={"coin"}
+                tileType={"coin"}
             />
         })
     }, [coinObjects])
@@ -107,7 +107,7 @@ export default ({fixedTiles, walkableTiles, dog, monsters, coins, bone}) => {
                     left={left}
                     top={top}
                     orientation={orientation}
-                    entityType={entityType}
+                    tileType={entityType}
                     walkingState={walkingState}
                 />
             )
@@ -119,7 +119,7 @@ export default ({fixedTiles, walkableTiles, dog, monsters, coins, bone}) => {
             key={`${dogObject.entityType}`}
             left={dogObject.pos[0]}
             top={dogObject.pos[1]}
-            entityType={dogObject.entityType}
+            tileType={dogObject.entityType}
             orientation={dogObject.orientation}
             walkingState={dogObject.walkingState}
         />
