@@ -38,26 +38,37 @@ const Tile = styled.div`
     height: 40px;
     width: 40px;
     background-repeat: no-repeat;
-    background-image: url(${props => mapTypeToImageUrl[props.tileType]});
 `;
 
-export const FixedTile = styled(Tile)`
-    transform: translate(${props => props.left}px, ${props => props.top}px);    
+export const FixedTile = styled(Tile).attrs(({left, top, tileType}) => ({
+    style: {
+        backgroundImage: `url(${mapTypeToImageUrl[tileType]})`,
+        transform: `translate(${left}px, ${top}px)`
+    }
+}))`
 `;
 
 
-export const EntityTile = styled(Tile)`
+export const EntityTile = styled(Tile).attrs(({left, top, tileType, orientation, walkingState}) => {
+    const walkingAnimationState = walkingState % 6 === 0 ? 3 : walkingState % 4 === 0 ? 2 : 1;
+    return ({
+        style: {
+            backgroundImage: `url(${mapTypeToImageUrl[tileType]})`,
+            transform: `translate3d(${left}px, ${top}px, 0)`,
+            transition: `${tileType === "dog" ? "transform 0.05s linear 0s" : "transform 0.5s linear 0s"}`,
+            backgroundPosition: `${mapWalkingAnimationStateToLeftOffset[walkingAnimationState]} ${mapOrientationToTopOffset[orientation]}`
+        }
+    })
+})`
     will-change: transform;
-    transform: translate3d(${props => props.left}px, ${props => props.top}px, 0);    
     z-index: 1;
-    transition: ${props => props.tileType === "dog" ? "transform 0.05s linear 0s" : "transform 0.5s linear 0s"};
-    background-position: ${props => {
-        const walkingAnimationState = props.walkingState % 6 === 0 ? 3 : props.walkingState % 4 === 0 ? 2 : 1;
-        return `${mapWalkingAnimationStateToLeftOffset[walkingAnimationState]} ${mapOrientationToTopOffset[props.orientation]}`;
-    }}
 `;
 
-export const CollectableTile = styled(Tile)`
-    transform: translate(${props => props.left}px, ${props => props.top}px);
+export const CollectableTile = styled(Tile).attrs(({left, top, tileType}) => ({
+    style: {
+        backgroundImage: `url(${mapTypeToImageUrl[tileType]})`,
+        transform: `translate(${left}px, ${top}px)`,
+    }
+}))`
     background-position: center;
 `;
