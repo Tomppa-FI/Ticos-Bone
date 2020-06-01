@@ -21,9 +21,9 @@ export default ({setGameState}) => {
     const score = Math.round((1000 + (playerStatus.playerCoins * 1000)) / (playerStatus.playerMoves / playerStatus.playerHealth));
     return (
         <Wrapper>
-            <Title>Congratulations, you found Tico's Bone!</Title>
+            {playerStatus.playerHealth !== 0 ? (<><Title>Congratulations, you found Tico's Bone!</Title><Paragraph>More Levels coming soon.</Paragraph></>) : (<Title>Tico has to go to the vet for a while :(</Title>)}
             <Paragraph>
-            More levels coming soon. In the meantime, why not play again?
+            Would you like to play again?
             </Paragraph>
             <Paragraph>
                 Final Score: {score}
