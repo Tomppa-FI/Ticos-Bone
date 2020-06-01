@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 
 export default ({setGameState}) => {
     const {playerStatus, dispatch} = usePlayerStatus();
-    const score = Math.round((1000 + (playerStatus.playerCoins * 100)) / (playerStatus.playerMoves / playerStatus.playerHealth));
+    const score = Math.round((1000 + (playerStatus.playerCoins * 1000)) / (playerStatus.playerMoves / playerStatus.playerHealth));
     return (
         <Wrapper>
             <Title>Congratulations, you found Tico's Bone!</Title>
@@ -27,6 +27,8 @@ export default ({setGameState}) => {
             </Paragraph>
             <Paragraph>
                 Final Score: {score}
+                <br />
+                {playerStatus.playerHealth === 5 ? "Congratulations on a no-damage run!" : ""}
             </Paragraph>
             <StyledButton onClick={() => {
                 dispatch({
