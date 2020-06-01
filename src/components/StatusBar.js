@@ -2,21 +2,23 @@ import React, { useMemo } from "react";
 import styled from "styled-components";
 
 import { usePlayerStatus } from "./App";
+import { BaseText } from "../styles/Typography";
 
 const Wrapper = styled.div`
-    background-color: black;
-    width: 1200px;
-    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 1200px;
+    height: 7vh;
+    background-color: #2e4730;
+    padding-bottom: 2.5px;
 `;
 
 const SectionBar = styled.div`
-    padding: 14px;
-    color: white;
+    background-color: #2e4730;
     display: flex;
-`
+    padding: 0 1%;
+`;
 
 const Heart = styled.div`
     width: 21px;
@@ -40,16 +42,13 @@ export default () => {
                 {getHeartComponents}
             </SectionBar>
             <SectionBar key={"Coins-Container"}>
-                <p>Current Coins: </p>
-                {playerStatus.playerCoins}
+                <BaseText>Current Coins: {playerStatus.playerCoins}</BaseText>
             </SectionBar>
             <SectionBar key={"Moves-Container"}>
-                <p>Current Moves: </p>
-                {playerStatus.playerMoves}
+                <BaseText>Current Moves: {playerStatus.playerMoves}</BaseText>
             </SectionBar>
             <SectionBar key={"Level-Container"}>
-                <p>Current Level: </p>
-                {playerStatus.currentLevel}
+                <BaseText>Current Level: {playerStatus.currentLevel}</BaseText>
             </SectionBar>
 
 

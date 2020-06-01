@@ -4,11 +4,13 @@ import Start from "./Start"
 import Info from "./Info"
 
 const Wrapper = styled.div`
-    height: 70%;
-    width: 70%;
-    background-color: black;
-    text-align: center;
-    color: white;
+  width: 800px;
+  height: 400px;
+  background-color: #323b33;
+  text-align: center;
+  border: 3px solid #323b33;
+  border-radius: 15px;
+  padding: 5px;
 `;
 
 const MENU_COMPONENTS = { 

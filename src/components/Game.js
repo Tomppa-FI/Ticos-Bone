@@ -7,8 +7,11 @@ import { usePlayerStatus } from "./App";
 import StatusBar from "./StatusBar";
 const overworldMusic = new Audio("./media/audio/Overworld.mp3");
 const Wrapper = styled.div`
-    height: 100%;
-    width: 100%;
+  width: auto;
+  height: auto;
+  border-top: none;
+  border: 5px solid #2e4730;
+  border-radius: 4px;
 `;
 
 export default ({setGameState}) => {
